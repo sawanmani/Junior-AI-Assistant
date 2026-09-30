@@ -1,0 +1,400 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+
+/* Main Clock Container */
+.sci-fi-clock {
+  position: fixed;
+  background: linear-gradient(145deg, 
+    rgba(5, 15, 30, 0.85) 0%, 
+    rgba(0, 30, 60, 0.75) 50%,
+    rgba(0, 20, 50, 0.8) 100%);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(0, 200, 255, 0.3);
+  border-radius: 8px;
+  padding: 0;
+  min-width: 220px;
+  min-height: 180px;
+  box-shadow: 
+    0 0 30px rgba(0, 150, 255, 0.2),
+    inset 0 0 40px rgba(0, 100, 200, 0.1),
+    0 0 60px rgba(0, 200, 255, 0.1);
+  z-index: 100;
+  overflow: hidden;
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+}
+
+.sci-fi-clock:active {
+  cursor: grabbing;
+}
+
+/* Animated glow pulse */
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow: 
+      0 0 30px rgba(0, 150, 255, 0.2),
+      inset 0 0 40px rgba(0, 100, 200, 0.1),
+      0 0 60px rgba(0, 200, 255, 0.1);
+  }
+  50% {
+    box-shadow: 
+      0 0 50px rgba(0, 200, 255, 0.4),
+      inset 0 0 60px rgba(0, 150, 255, 0.2),
+      0 0 100px rgba(0, 255, 255, 0.2);
+  }
+}
+
+.sci-fi-clock {
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+/* Header */
+.clock-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 15px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(0, 150, 255, 0.15) 50%, 
+    transparent 100%);
+  border-bottom: 1px solid rgba(0, 200, 255, 0.3);
+  position: relative;
+}
+
+.header-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  color: #00e5ff;
+  text-shadow: 0 0 10px rgba(0, 229, 255, 0.8);
+  text-transform: uppercase;
+}
+
+.header-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(0, 229, 255, 0.6) 50%, 
+    transparent 100%);
+}
+
+.header-line.left {
+  background: linear-gradient(90deg, 
+    rgba(0, 229, 255, 0.6) 0%, 
+    rgba(0, 229, 255, 0.2) 100%);
+}
+
+.header-line.right {
+  background: linear-gradient(90deg, 
+    rgba(0, 229, 255, 0.2) 0%, 
+    rgba(0, 229, 255, 0.6) 100%);
+}
+
+/* Clock Body */
+.clock-body {
+  padding: 15px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Time Ring */
+.time-ring {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ring-svg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.ring-outer {
+  fill: none;
+  stroke: rgba(0, 150, 255, 0.1);
+  stroke-width: 1;
+}
+
+.ring-inner {
+  fill: none;
+  stroke: rgba(0, 200, 255, 0.2);
+  stroke-width: 0.5;
+  stroke-dasharray: 2 4;
+}
+
+.ring-progress {
+  fill: none;
+  stroke: url(#gradient);
+  stroke-width: 2;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 5px rgba(0, 229, 255, 0.8));
+}
+
+/* Digital Time */
+.digital-time {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-family: 'Orbitron', sans-serif;
+  z-index: 10;
+}
+
+.time-hours,
+.time-minutes {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #00ffe1;
+  text-shadow: 
+    0 0 10px rgba(0, 255, 225, 0.8),
+    0 0 20px rgba(0, 255, 225, 0.5);
+  min-width: 50px;
+  text-align: center;
+}
+
+.time-colon {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #00ffe1;
+  text-shadow: 0 0 8px rgba(0, 255, 225, 0.8);
+}
+
+.time-colon.blink-on {
+  opacity: 1;
+}
+
+.time-colon.blink-off {
+  opacity: 0.3;
+}
+
+.seconds-display {
+  position: absolute;
+  bottom: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 50, 100, 0.6);
+  border: 1px solid rgba(0, 255, 136, 0.4);
+  border-radius: 4px;
+  padding: 3px 8px;
+}
+
+.seconds-num {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #00ff88;
+  text-shadow: 0 0 8px rgba(0, 255, 136, 0.6);
+  letter-spacing: 2px;
+}
+
+/* Date Section */
+.date-section {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(0, 200, 255, 0.2);
+}
+
+.date-row {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.date-label {
+  font-size: 0.45rem;
+  color: rgba(0, 229, 255, 0.5);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.date-value {
+  font-size: 0.65rem;
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-shadow: 0 0 5px rgba(0, 229, 255, 0.3);
+  font-family: 'Orbitron', sans-serif;
+}
+
+.date-value.day {
+  color: #00ffe1;
+  text-shadow: 0 0 8px rgba(0, 255, 225, 0.5);
+}
+
+.date-value.full {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Decorative Elements */
+.decorative-line {
+  position: absolute;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(0, 229, 255, 0.4) 50%, 
+    transparent 100%);
+  left: 10px;
+  right: 10px;
+}
+
+.decorative-line.top {
+  top: 50px;
+}
+
+.decorative-line.bottom {
+  bottom: 50px;
+}
+
+/* Corner Accents */
+.corner-accent {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border: 2px solid rgba(0, 229, 255, 0.6);
+  transition: all 0.3s ease;
+}
+
+.corner-accent.top-left {
+  top: 8px;
+  left: 8px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.corner-accent.top-right {
+  top: 8px;
+  right: 8px;
+  border-left: none;
+  border-bottom: none;
+}
+
+.corner-accent.bottom-left {
+  bottom: 8px;
+  left: 8px;
+  border-right: none;
+  border-top: none;
+}
+
+.corner-accent.bottom-right {
+  bottom: 8px;
+  right: 8px;
+  border-left: none;
+  border-top: none;
+}
+
+.sci-fi-clock:hover .corner-accent {
+  border-color: rgba(0, 255, 225, 0.9);
+  box-shadow: 0 0 10px rgba(0, 255, 225, 0.4);
+}
+
+/* Scanning line animation */
+@keyframes scan {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(200%);
+  }
+}
+
+.sci-fi-clock::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(180deg, 
+    transparent 0%, 
+    rgba(0, 255, 225, 0.03) 50%, 
+    transparent 100%);
+  animation: scan 3s linear infinite;
+  pointer-events: none;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .sci-fi-clock {
+    min-width: 180px;
+    min-height: 150px;
+  }
+
+  .time-ring {
+    width: 110px;
+    height: 110px;
+  }
+
+  .time-hours,
+  .time-minutes {
+    font-size: 1.5rem;
+    min-width: 40px;
+  }
+
+  .time-colon {
+    font-size: 1.2rem;
+  }
+
+  .seconds-num {
+    font-size: 0.7rem;
+  }
+
+  .header-title {
+    font-size: 7px;
+  }
+
+  .date-label {
+    font-size: 0.4rem;
+  }
+
+  .date-value {
+    font-size: 0.55rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .sci-fi-clock {
+    min-width: 150px;
+    min-height: 130px;
+  }
+
+  .time-ring {
+    width: 90px;
+    height: 90px;
+  }
+
+  .time-hours,
+  .time-minutes {
+    font-size: 1.2rem;
+    min-width: 32px;
+  }
+
+  .time-colon {
+    font-size: 1rem;
+  }
+
+  .seconds-num {
+    font-size: 0.6rem;
+  }
+
+  .header-title {
+    font-size: 6px;
+    letter-spacing: 2px;
+  }
+}

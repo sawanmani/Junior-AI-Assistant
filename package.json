@@ -1,0 +1,29 @@
+{
+  "name": "junior",
+  "version": "1.0.0",
+  "description": "Junior AI Assistant - Full Stack Application",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "npm run dev --prefix backend",
+    "dev:frontend": "npm run dev --prefix front-end",
+    "install:all": "npm install && npm install --prefix backend && npm install --prefix front-end",
+    "build": "npm run build --prefix front-end",
+    "start": "npm run start --prefix backend"
+  },
+  "keywords": [
+    "ai",
+    "assistant",
+    "react",
+    "nodejs"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  },
+  "dependencies": {
+    "junior": "file:"
+  }
+}

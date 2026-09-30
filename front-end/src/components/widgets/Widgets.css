@@ -1,0 +1,1559 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+
+/* ============================================
+   BASE WIDGET STYLES
+   ============================================ */
+.glass-widget {
+  background: rgba(10, 20, 40, 0.25);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border: 1px solid rgba(0, 255, 225, 0.2);
+  color: #fff;
+  font-family: 'Orbitron', sans-serif;
+  overflow: hidden;
+  z-index: 100;
+  box-shadow: 0 0 20px rgba(0, 255, 225, 0.1), inset 0 0 10px rgba(0, 255, 225, 0.05);
+  transition: all 0.3s ease;
+  touch-action: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  /* Responsive sizing */
+  width: max-content;
+  min-width: 150px;
+  max-width: calc(100vw - 40px);
+}
+
+.glass-widget:hover {
+  box-shadow: 0 0 30px rgba(0, 255, 225, 0.2), inset 0 0 15px rgba(0, 255, 225, 0.1);
+}
+
+.glass-widget:active {
+  cursor: grabbing !important;
+}
+
+.widget-header {
+  padding: 8px 15px;
+  background: linear-gradient(90deg, rgba(0, 255, 225, 0.15) 0%, rgba(0, 0, 0, 0.4) 100%);
+  border-bottom: 1px solid rgba(0, 255, 225, 0.3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: grab;
+  user-select: none;
+}
+
+.widget-header:active {
+  cursor: grabbing;
+}
+
+.widget-title {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #00ffe1;
+  text-transform: uppercase;
+  text-shadow: 0 0 8px rgba(0, 255, 225, 0.5);
+}
+
+.widget-content {
+  padding: 15px;
+}
+
+/* Shape Modifiers */
+.shape-cut {
+  clip-path: polygon(20px 0,
+      100% 0,
+      100% calc(100% - 20px),
+      calc(100% - 20px) 100%,
+      0 100%,
+      0 20px);
+  border: none;
+  /* Clip path breaks standard borders */
+  position: relative;
+}
+
+/* Pseudo-border for clip-path */
+.shape-cut::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 255, 225, 0.3);
+  clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px,
+      0 21px, 1px 21px, 1px calc(100% - 21px), calc(100% - 21px) 1px, 100% 1px, 100% 0,
+      20px 0
+      /* Outer path ends */
+    );
+  /* Simplified frame approach since pure CSS borders + clip-path is tricky */
+  pointer-events: none;
+  display: none;
+  /* Let's use a standard border-image or background instead if needed */
+}
+
+/* Alternative border approach for clipped elements */
+.shape-cut {
+  border: 1px solid rgba(0, 255, 225, 0.3);
+  /* Fallback or combined with mask */
+}
+
+.shape-rounded {
+  border-radius: 16px;
+}
+
+.shape-square {
+  border-radius: 0;
+}
+
+/* ============================================
+   RESPONSIVE WIDGET STYLES
+   ============================================ */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .glass-widget {
+    font-size: 0.85em;
+  }
+
+  .widget-title {
+    font-size: 10px;
+  }
+
+  .widget-content {
+    padding: 12px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .glass-widget {
+    font-size: 0.75em;
+    max-width: calc(100vw - 20px);
+  }
+
+  .widget-header {
+    padding: 6px 10px;
+  }
+
+  .widget-title {
+    font-size: 9px;
+    letter-spacing: 1.5px;
+  }
+
+  .widget-content {
+    padding: 10px;
+  }
+
+  /* Shape adjustments for mobile */
+  .shape-cut {
+    clip-path: polygon(15px 0,
+        100% 0,
+        100% calc(100% - 15px),
+        calc(100% - 15px) 100%,
+        0 100%,
+        0 15px);
+  }
+}
+
+/* Small mobile */
+@media (max-width: 480px) {
+  .glass-widget {
+    font-size: 0.65em;
+  }
+
+  .widget-header {
+    padding: 5px 8px;
+  }
+
+  .widget-title {
+    font-size: 8px;
+    letter-spacing: 1px;
+  }
+
+  .widget-content {
+    padding: 8px;
+  }
+}
+
+/* ============================================
+   WIDGET RESIZER
+   ============================================ */
+.widget-resizer {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  cursor: nwse-resize;
+  z-index: 1000;
+  background: linear-gradient(135deg, transparent 50%, rgba(0, 255, 225, 0.4) 50%);
+  transition: all 0.3s ease;
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+}
+
+.widget-resizer:hover {
+  background: linear-gradient(135deg, transparent 50%, rgba(0, 255, 225, 0.8) 50%);
+  filter: drop-shadow(0 0 5px rgba(0, 255, 225, 0.5));
+}
+
+.shape-cut .widget-resizer {
+  bottom: 0px;
+  right: 0px;
+}
+
+/* ============================================
+   WIDGET DELETE BUTTON
+   ============================================ */
+.widget-delete {
+  background: rgba(255, 51, 51, 0.3);
+  border: 1px solid rgba(255, 51, 51, 0.5);
+  color: #ff3333;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  padding: 0;
+  margin: 0;
+}
+
+.widget-delete:hover {
+  background: rgba(255, 51, 51, 0.6);
+  color: #fff;
+  box-shadow: 0 0 10px rgba(255, 51, 51, 0.5);
+}
+
+/* ============================================
+   SYSTEM WIDGET STYLES
+   ============================================ */
+.system-widget {
+  min-width: 180px;
+}
+
+.system-content {
+  padding: 15px !important;
+}
+
+.system-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(0, 255, 225, 0.1);
+}
+
+.system-row:last-child {
+  border-bottom: none;
+}
+
+.system-label {
+  font-size: 0.6rem;
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+.system-value {
+  font-size: 0.75rem;
+  font-weight: 700;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.system-value.cpu {
+  color: #00ffe1;
+  text-shadow: 0 0 8px rgba(0, 255, 225, 0.5);
+}
+
+.system-value.memory {
+  color: #ff66cc;
+  text-shadow: 0 0 8px rgba(255, 102, 204, 0.5);
+}
+
+.system-value.battery {
+  color: #00ff88;
+  text-shadow: 0 0 8px rgba(0, 255, 136, 0.5);
+}
+
+.system-value.network {
+  color: #ffaa00;
+  text-shadow: 0 0 8px rgba(255, 170, 0, 0.5);
+}
+
+/* ============================================
+   NOTES WIDGET STYLES
+   ============================================ */
+.notes-widget {
+  min-width: 250px;
+  min-height: 200px;
+}
+
+.notes-content {
+  padding: 10px !important;
+  height: calc(100% - 40px);
+}
+
+.notes-textarea {
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(0, 255, 225, 0.2);
+  color: #00ffe1;
+  font-family: 'Courier New', monospace;
+  font-size: 0.75rem;
+  padding: 10px;
+  resize: none;
+  outline: none;
+  border-radius: 4px;
+}
+
+.notes-textarea::placeholder {
+  color: rgba(0, 255, 225, 0.3);
+}
+
+.notes-textarea:focus {
+  border-color: rgba(0, 255, 225, 0.5);
+  box-shadow: 0 0 10px rgba(0, 255, 225, 0.1);
+}
+
+/* ============================================
+   FUTURISTIC TIME WIDGET STYLES
+   ============================================ */
+
+.time-widget {
+  background: linear-gradient(135deg,
+      rgba(0, 20, 40, 0.4) 0%,
+      rgba(0, 10, 30, 0.5) 100%);
+  border: 1px solid rgba(0, 255, 225, 0.3);
+  position: relative;
+  overflow: visible;
+}
+
+.time-display-container {
+  padding: 15px 20px !important;
+  position: relative;
+}
+
+.time-main {
+  text-align: center;
+  margin-bottom: 15px;
+  position: relative;
+  z-index: 2;
+}
+
+.time-digits {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  font-family: 'Orbitron', monospace;
+  font-size: 2.2rem;
+  font-weight: 900;
+  letter-spacing: 3px;
+}
+
+.time-unit {
+  color: #00ffe1;
+  text-shadow:
+    0 0 10px rgba(0, 255, 225, 0.8),
+    0 0 20px rgba(0, 255, 225, 0.5),
+    0 0 30px rgba(0, 255, 225, 0.3);
+  min-width: 50px;
+  text-align: center;
+  position: relative;
+}
+
+.time-unit.hours {
+  background: linear-gradient(180deg, #00ffe1 0%, #0088ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.time-unit.minutes {
+  background: linear-gradient(180deg, #00ffe1 0%, #00ccff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.time-unit.seconds {
+  font-size: 1.4rem;
+  color: #00ff88;
+  text-shadow: 0 0 10px rgba(0, 255, 136, 0.8);
+  min-width: 35px;
+}
+
+.time-separator {
+  color: rgba(0, 255, 225, 0.3);
+  font-weight: 300;
+  transition: all 0.3s ease;
+}
+
+.time-separator.active {
+  color: #00ffe1;
+  text-shadow: 0 0 8px rgba(0, 255, 225, 0.8);
+}
+
+.date-display {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(0, 255, 225, 0.2);
+}
+
+.date-row {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+}
+
+.date-label {
+  font-size: 0.5rem;
+  color: rgba(0, 255, 225, 0.5);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.date-value {
+  font-size: 0.7rem;
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-shadow: 0 0 5px rgba(0, 255, 225, 0.3);
+}
+
+.time-decorations {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.corner-bracket {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  border: 2px solid rgba(0, 255, 225, 0.4);
+  transition: all 0.3s ease;
+}
+
+.corner-bracket.top-left {
+  top: -3px;
+  left: -3px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.corner-bracket.top-right {
+  top: -3px;
+  right: -3px;
+  border-left: none;
+  border-bottom: none;
+}
+
+.corner-bracket.bottom-left {
+  bottom: -3px;
+  left: -3px;
+  border-right: none;
+  border-top: none;
+}
+
+.corner-bracket.bottom-right {
+  bottom: -3px;
+  right: -3px;
+  border-left: none;
+  border-top: none;
+}
+
+.time-widget:hover .corner-bracket {
+  border-color: rgba(0, 255, 225, 0.8);
+  box-shadow: 0 0 10px rgba(0, 255, 225, 0.3);
+}
+
+/* Pulse animation for time widget */
+@keyframes time-pulse {
+
+  0%,
+  100% {
+    box-shadow:
+      0 0 20px rgba(0, 255, 225, 0.2),
+      inset 0 0 10px rgba(0, 255, 225, 0.05);
+  }
+
+  50% {
+    box-shadow:
+      0 0 30px rgba(0, 255, 225, 0.4),
+      inset 0 0 20px rgba(0, 255, 225, 0.1);
+  }
+}
+
+.time-widget {
+  animation: time-pulse 2s ease-in-out infinite;
+}
+
+/* Responsive time widget */
+@media (max-width: 768px) {
+  .time-digits {
+    font-size: 1.6rem;
+  }
+
+  .time-unit {
+    min-width: 35px;
+  }
+
+  .time-unit.seconds {
+    font-size: 1rem;
+    min-width: 28px;
+  }
+
+  .time-display-container {
+    padding: 12px 15px !important;
+  }
+
+  .corner-bracket {
+    width: 10px;
+    height: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .time-digits {
+    font-size: 1.3rem;
+    gap: 2px;
+  }
+
+  .time-unit {
+    min-width: 28px;
+  }
+
+  .time-unit.seconds {
+    font-size: 0.8rem;
+    min-width: 22px;
+  }
+
+  .date-display {
+    gap: 8px;
+  }
+
+  .date-label {
+    font-size: 0.4rem;
+  }
+
+  .date-value {
+    font-size: 0.55rem;
+  }
+}
+
+/* ============================================
+   COMPREHENSIVE RESPONSIVE STYLES
+   All Devices & Orientations
+   ============================================ */
+
+/* Tablet Portrait (768px - 1024px) */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .glass-widget {
+    font-size: 0.85em;
+    max-width: calc(100vw - 60px);
+  }
+
+  .widget-title {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+  }
+
+  .widget-content {
+    padding: 12px;
+  }
+
+  .weather-widget,
+  .status-widget,
+  .system-widget {
+    min-width: 140px;
+  }
+
+  .time-widget .time-digits {
+    font-size: 1.8rem;
+  }
+}
+
+/* Tablet Landscape & Mobile Landscape (481px - 768px) */
+@media (max-width: 768px) {
+  .glass-widget {
+    font-size: 0.75em;
+    max-width: calc(100vw - 30px);
+    min-width: 120px;
+  }
+
+  .widget-header {
+    padding: 6px 10px;
+  }
+
+  .widget-title {
+    font-size: 9px;
+    letter-spacing: 1.5px;
+  }
+
+  .widget-content {
+    padding: 10px;
+  }
+
+  /* Shape adjustments for mobile */
+  .shape-cut {
+    clip-path: polygon(15px 0,
+        100% 0,
+        100% calc(100% - 15px),
+        calc(100% - 15px) 100%,
+        0 100%,
+        0 15px);
+  }
+
+  /* Weather widget mobile */
+  .weather-widget {
+    min-width: 130px;
+  }
+
+  .weather-widget .widget-content {
+    padding: 12px !important;
+  }
+
+  .weather-widget .temp {
+    font-size: 1.3rem !important;
+  }
+
+  .weather-widget .condition {
+    font-size: 0.7rem !important;
+  }
+
+  .weather-widget .humidity {
+    font-size: 0.55rem !important;
+  }
+
+  /* Time widget mobile */
+  .time-widget {
+    min-width: 140px;
+  }
+
+  .time-digits {
+    font-size: 1.6rem;
+  }
+
+  .time-unit {
+    min-width: 35px;
+  }
+
+  .time-unit.seconds {
+    font-size: 1rem;
+    min-width: 28px;
+  }
+
+  /* Status widget mobile */
+  .status-widget {
+    min-width: 150px;
+    max-height: 180px;
+    overflow-y: auto;
+  }
+
+  .status-item {
+    font-size: 0.55rem !important;
+  }
+
+  /* System widget mobile */
+  .system-widget {
+    min-width: 140px;
+  }
+
+  .system-value {
+    font-size: 0.65rem !important;
+  }
+
+  /* Notes widget mobile */
+  .notes-widget {
+    min-width: 200px;
+    min-height: 150px;
+  }
+
+  .notes-textarea {
+    font-size: 0.65rem !important;
+  }
+
+  /* Music widget mobile */
+  .music-widget {
+    min-width: 10rem;
+  }
+
+  .music-info {
+    margin-bottom: 0.5rem;
+  }
+
+  .music-controls {
+    gap: 0.3rem;
+  }
+
+  .playback-btn {
+    width: 1.8rem;
+    height: 1.8rem;
+    font-size: 0.7rem;
+  }
+}
+
+/* Mobile Portrait (max-width: 480px) */
+@media (max-width: 480px) {
+  .glass-widget {
+    font-size: 0.65em;
+    max-width: calc(100vw - 20px);
+    min-width: 110px;
+  }
+
+  .widget-header {
+    padding: 5px 8px;
+  }
+
+  .widget-title {
+    font-size: 8px;
+    letter-spacing: 1px;
+  }
+
+  .widget-content {
+    padding: 8px;
+  }
+
+  .shape-cut {
+    clip-path: polygon(12px 0,
+        100% 0,
+        100% calc(100% - 12px),
+        calc(100% - 12px) 100%,
+        0 100%,
+        0 12px);
+  }
+
+  /* Weather widget small mobile */
+  .weather-widget {
+    min-width: 110px;
+  }
+
+  .weather-widget .temp {
+    font-size: 1.1rem !important;
+  }
+
+  .weather-widget .condition {
+    font-size: 0.6rem !important;
+    margin-top: 6px !important;
+  }
+
+  .weather-widget .humidity {
+    font-size: 0.5rem !important;
+  }
+
+  /* Time widget small mobile */
+  .time-widget {
+    min-width: 120px;
+  }
+
+  .time-digits {
+    font-size: 1.3rem;
+    gap: 2px;
+  }
+
+  .time-unit {
+    min-width: 28px;
+  }
+
+  .time-unit.seconds {
+    font-size: 0.8rem;
+    min-width: 22px;
+  }
+
+  .date-display {
+    gap: 8px;
+  }
+
+  .date-label {
+    font-size: 0.4rem;
+  }
+
+  .date-value {
+    font-size: 0.55rem;
+  }
+
+  /* Status widget small mobile */
+  .status-widget {
+    min-width: 130px;
+    max-height: 150px;
+  }
+
+  .status-item {
+    font-size: 0.5rem !important;
+    padding: 6px 0 !important;
+  }
+
+  /* System widget small mobile */
+  .system-widget {
+    min-width: 120px;
+  }
+
+  .system-row {
+    padding: 6px 0;
+  }
+
+  .system-label {
+    font-size: 0.5rem !important;
+  }
+
+  .system-value {
+    font-size: 0.6rem !important;
+  }
+
+  /* Notes widget small mobile */
+  .notes-widget {
+    min-width: 180px;
+    min-height: 120px;
+  }
+
+  .notes-textarea {
+    font-size: 0.6rem !important;
+    padding: 8px !important;
+  }
+
+  /* Music widget small mobile */
+  .music-widget {
+    min-width: 8.5rem;
+  }
+
+  .music-icon {
+    font-size: 1.5rem !important;
+  }
+
+  .music-track {
+    font-size: 0.6rem !important;
+  }
+
+  .music-btn {
+    font-size: 0.55rem !important;
+    padding: 0.2rem 0.3rem !important;
+  }
+
+  .playback-btn {
+    width: 1.6rem;
+    height: 1.6rem;
+    font-size: 0.6rem;
+  }
+
+  .playback-btn.play {
+    width: 2.2rem;
+    height: 2.2rem;
+  }
+}
+
+/* Mobile Landscape Orientation */
+@media (max-width: 768px) and (orientation: landscape) {
+  .glass-widget {
+    font-size: 0.7em;
+    max-width: calc(50vw - 40px);
+  }
+
+  .weather-widget,
+  .status-widget,
+  .system-widget {
+    min-width: 100px;
+  }
+
+  .time-widget {
+    min-width: 130px;
+  }
+
+  .time-digits {
+    font-size: 1.4rem;
+  }
+
+  .notes-widget {
+    min-width: 10rem;
+    min-height: 6.25rem;
+  }
+
+  .music-widget {
+    min-width: 8.5rem;
+  }
+}
+
+/* Very Small Devices (max-width: 360px) */
+@media (max-width: 360px) {
+  .glass-widget {
+    font-size: 0.6em;
+    min-width: 100px;
+  }
+
+  .widget-title {
+    font-size: 7px;
+    letter-spacing: 0.8px;
+  }
+
+  .weather-widget .temp {
+    font-size: 1rem !important;
+  }
+
+  .time-digits {
+    font-size: 1.1rem;
+  }
+}
+
+/* Large Desktop (min-width: 1441px) */
+@media (min-width: 1441px) {
+  .glass-widget {
+    font-size: 1.1em;
+  }
+
+  .widget-title {
+    font-size: 12px;
+  }
+
+  .weather-widget {
+    min-width: 180px;
+  }
+
+  .time-widget {
+    min-width: 200px;
+  }
+
+  .time-digits {
+    font-size: 2.5rem;
+  }
+}
+
+/* Ultra Wide (min-width: 1920px) */
+@media (min-width: 1920px) {
+  .glass-widget {
+    font-size: 1.2em;
+  }
+
+  .weather-widget {
+    min-width: 200px;
+  }
+
+  .time-widget {
+    min-width: 220px;
+  }
+
+  .time-digits {
+    font-size: 2.8rem;
+  }
+}
+
+/* High DPI / Retina Displays */
+@media (-webkit-min-device-pixel-ratio: 2),
+(min-resolution: 192dpi) {
+  .glass-widget {
+    border-width: 0.5px;
+  }
+
+  .widget-title {
+    text-shadow: 0 0 4px rgba(0, 255, 225, 0.3);
+  }
+}
+
+/* Reduced Motion Preference */
+@media (prefers-reduced-motion: reduce) {
+  .glass-widget {
+    transition: none;
+  }
+
+  .glass-widget:hover {
+    box-shadow: 0 0 20px rgba(0, 255, 225, 0.15);
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .glass-widget {
+    border: 2px solid rgba(0, 255, 225, 0.6) !important;
+  }
+
+  .widget-title {
+    text-shadow: none !important;
+    color: #00ffe1 !important;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .glass-widget {
+    background: rgba(5, 10, 20, 0.35);
+  }
+
+  .widget-header {
+    background: linear-gradient(90deg, rgba(0, 255, 225, 0.2) 0%, rgba(0, 0, 0, 0.5) 100%);
+  }
+}
+
+/* Print Styles */
+@media print {
+  .glass-widget {
+    display: none !important;
+  }
+}
+
+/* ============================================
+   DATE TIME WIDGET STYLES
+   ============================================ */
+.dateTime-widget {
+  min-width: 180px;
+  background: linear-gradient(135deg,
+      rgba(0, 20, 40, 0.4) 0%,
+      rgba(0, 10, 30, 0.5) 100%);
+  border: 1px solid rgba(0, 255, 225, 0.3);
+  position: relative;
+  overflow: visible;
+  transition: all 0.3s ease;
+}
+
+.dateTime-widget .widget-content {
+  text-align: center;
+  padding: 20px 10px !important;
+}
+
+.dateTime-widget .time-display {
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: #00ffe1;
+  text-shadow: 0 0 15px rgba(0, 255, 225, 0.6);
+  font-family: 'Orbitron', sans-serif;
+  letter-spacing: 2px;
+  transition: font-size 0.3s ease;
+}
+
+.dateTime-widget .date-display {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 2px;
+  margin-top: 8px;
+  text-transform: uppercase;
+  transition: font-size 0.3s ease;
+}
+
+/* Tablet - DateTime */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .dateTime-widget {
+    min-width: 150px;
+  }
+
+  .dateTime-widget .time-display {
+    font-size: 1.5rem;
+  }
+
+  .dateTime-widget .date-display {
+    font-size: 0.6rem;
+  }
+}
+
+/* Mobile Portrait - DateTime */
+@media (max-width: 768px) {
+  .dateTime-widget {
+    min-width: 130px;
+    clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px) !important;
+  }
+
+  .dateTime-widget .time-display {
+    font-size: 1.3rem;
+  }
+
+  .dateTime-widget .date-display {
+    font-size: 0.55rem;
+  }
+
+  .dateTime-widget .widget-content {
+    padding: 15px 8px !important;
+  }
+}
+
+/* Small Mobile - DateTime */
+@media (max-width: 480px) {
+  .dateTime-widget {
+    min-width: 110px;
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px) !important;
+  }
+
+  .dateTime-widget .time-display {
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+  }
+
+  .dateTime-widget .date-display {
+    font-size: 0.45rem;
+    letter-spacing: 1px;
+  }
+}
+
+/* Mobile Landscape - DateTime */
+@media (max-width: 768px) and (orientation: landscape) {
+  .dateTime-widget {
+    min-width: 120px;
+  }
+
+  .dateTime-widget .time-display {
+    font-size: 1.2rem;
+  }
+}
+
+/* Very Small Devices - DateTime */
+@media (max-width: 360px) {
+  .dateTime-widget {
+    min-width: 100px;
+  }
+
+  .dateTime-widget .time-display {
+    font-size: 1rem;
+  }
+
+  .dateTime-widget .date-display {
+    font-size: 0.4rem;
+  }
+}
+
+/* Large Desktop - DateTime */
+@media (min-width: 1441px) {
+  .dateTime-widget {
+    min-width: 200px;
+  }
+
+  .dateTime-widget .time-display {
+    font-size: 2rem;
+  }
+
+  .dateTime-widget .date-display {
+    font-size: 0.75rem;
+  }
+}
+
+/* Ultra Wide - DateTime */
+@media (min-width: 1920px) {
+  .dateTime-widget {
+    min-width: 220px;
+  }
+
+  .dateTime-widget .time-display {
+    font-size: 2.2rem;
+  }
+}
+
+/* ============================================
+   WEATHER WIDGET RESPONSIVE
+   ============================================ */
+/* Tablet - Weather */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .weather-widget {
+    min-width: 150px;
+  }
+}
+
+/* Mobile - Weather */
+@media (max-width: 768px) {
+  .weather-widget {
+    min-width: 130px;
+    clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px) !important;
+  }
+
+  .weather-widget .temp {
+    font-size: 1.3rem !important;
+  }
+
+  .weather-widget .condition {
+    font-size: 0.65rem !important;
+  }
+
+  .weather-widget .humidity {
+    font-size: 0.5rem !important;
+  }
+}
+
+/* Small Mobile - Weather */
+@media (max-width: 480px) {
+  .weather-widget {
+    min-width: 110px;
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px) !important;
+  }
+
+  .weather-widget .temp {
+    font-size: 1.1rem !important;
+  }
+
+  .weather-widget .condition {
+    font-size: 0.55rem !important;
+  }
+
+  .weather-widget .humidity {
+    font-size: 0.45rem !important;
+  }
+}
+
+/* ============================================
+   TIME WIDGET RESPONSIVE
+   ============================================ */
+/* Mobile - Time */
+@media (max-width: 768px) {
+  .time-widget {
+    min-width: 130px;
+    clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px) !important;
+  }
+
+  .time-widget .time-digits {
+    font-size: 1.4rem;
+  }
+}
+
+/* Small Mobile - Time */
+@media (max-width: 480px) {
+  .time-widget {
+    min-width: 110px;
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px) !important;
+  }
+
+  .time-widget .time-digits {
+    font-size: 1.1rem;
+  }
+}
+
+/* ============================================
+   STATUS WIDGET RESPONSIVE
+   ============================================ */
+/* Mobile - Status */
+@media (max-width: 768px) {
+  .status-widget {
+    min-width: 140px;
+    max-height: 160px;
+    clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px) !important;
+  }
+
+  .status-widget .status-item {
+    font-size: 0.5rem !important;
+  }
+}
+
+/* Small Mobile - Status */
+@media (max-width: 480px) {
+  .status-widget {
+    min-width: 120px;
+    max-height: 140px;
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px) !important;
+  }
+
+  .status-widget .status-item {
+    font-size: 0.45rem !important;
+  }
+}
+
+/* ============================================
+   NEW STATUS WIDGET STYLES
+   ============================================ */
+.status-section {
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(0, 255, 225, 0.1);
+}
+
+.status-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.status-label {
+  font-size: 0.6rem;
+  color: rgba(0, 255, 225, 0.7);
+  margin-bottom: 6px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.status-value-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.status-value {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #00ffe1;
+  text-shadow: 0 0 8px rgba(0, 255, 225, 0.4);
+}
+
+.status-value-small {
+  font-size: 0.6rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.status-badge {
+  font-size: 0.55rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(0, 255, 225, 0.1);
+  border: 1px solid rgba(0, 255, 225, 0.2);
+  font-weight: 600;
+}
+
+.status-badge.charging {
+  background: rgba(255, 170, 0, 0.15);
+  border-color: rgba(255, 170, 0, 0.3);
+  color: #ffaa00;
+}
+
+/* Status Bar (Battery) */
+.status-bar {
+  width: 100%;
+  height: 6px;
+  background: rgba(0, 255, 225, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: 6px;
+  border: 1px solid rgba(0, 255, 225, 0.15);
+}
+
+.status-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.5s ease, background 0.3s ease;
+}
+
+/* System Grid */
+.status-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.status-mini {
+  background: rgba(0, 255, 225, 0.05);
+  border: 1px solid rgba(0, 255, 225, 0.1);
+  border-radius: 6px;
+  padding: 6px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.status-mini-label {
+  font-size: 0.5rem;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-mini-value {
+  font-size: 0.6rem;
+  color: #00ffe1;
+  font-weight: 700;
+}
+
+/* Responsive for new status widget */
+@media (max-width: 768px) {
+  .status-section {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+  }
+
+  .status-label {
+    font-size: 0.55rem;
+  }
+
+  .status-value {
+    font-size: 0.65rem;
+  }
+
+  .status-value-small {
+    font-size: 0.55rem;
+  }
+
+  .status-badge {
+    font-size: 0.5rem;
+    padding: 2px 4px;
+  }
+
+  .status-bar {
+    height: 5px;
+  }
+
+  .status-grid {
+    gap: 6px;
+  }
+
+  .status-mini {
+    padding: 5px 6px;
+  }
+
+  .status-mini-label {
+    font-size: 0.45rem;
+  }
+
+  .status-mini-value {
+    font-size: 0.55rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .status-label {
+    font-size: 0.5rem;
+  }
+
+  .status-value {
+    font-size: 0.6rem;
+  }
+
+  .status-value-small {
+    font-size: 0.5rem;
+  }
+
+  .status-mini-label {
+    font-size: 0.4rem;
+  }
+
+  .status-mini-value {
+    font-size: 0.5rem;
+  }
+}
+
+/* ============================================
+   SYSTEM WIDGET RESPONSIVE
+   ============================================ */
+/* Mobile - System */
+@media (max-width: 768px) {
+  .system-widget {
+    min-width: 130px;
+    clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px) !important;
+  }
+
+  .system-widget .system-value {
+    font-size: 0.6rem !important;
+  }
+
+  .system-widget .system-label {
+    font-size: 0.45rem !important;
+  }
+}
+
+/* Small Mobile - System */
+@media (max-width: 480px) {
+  .system-widget {
+    min-width: 110px;
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px) !important;
+  }
+
+  .system-widget .system-value {
+    font-size: 0.55rem !important;
+  }
+
+  .system-widget .system-label {
+    font-size: 0.4rem !important;
+  }
+}
+
+/* ============================================
+   NOTES WIDGET RESPONSIVE
+   ============================================ */
+/* Mobile - Notes */
+@media (max-width: 768px) {
+  .notes-widget {
+    min-width: 180px;
+    min-height: 120px;
+    clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px) !important;
+  }
+
+  .notes-widget .notes-textarea {
+    font-size: 0.6rem !important;
+  }
+}
+
+/* Small Mobile - Notes */
+@media (max-width: 480px) {
+  .notes-widget {
+    min-width: 160px;
+    min-height: 100px;
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px) !important;
+  }
+
+  .notes-widget .notes-textarea {
+    font-size: 0.55rem !important;
+  }
+}
+
+/* ============================================
+   MUSIC WIDGET RESPONSIVE
+   ============================================ */
+/* Mobile - Music */
+@media (max-width: 768px) {
+  .music-widget {
+    min-width: 9.5rem;
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px) !important;
+  }
+
+  .music-widget .music-btn {
+    font-size: 0.55rem !important;
+  }
+
+  .music-widget .playback-btn {
+    width: 1.6rem;
+    height: 1.6rem;
+  }
+}
+
+/* Small Mobile - Music */
+@media (max-width: 480px) {
+  .music-widget {
+    min-width: 8rem;
+    clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px) !important;
+  }
+
+  .music-widget .music-btn {
+    font-size: 0.5rem !important;
+  }
+
+  .music-widget .playback-btn {
+    width: 1.4rem;
+    height: 1.4rem;
+  }
+}
+
+/* ============================================
+   SPEECH TERMINAL RESPONSIVE
+   ============================================ */
+/* Mobile - Speech Terminal */
+@media (max-width: 768px) {
+  .speech-terminal {
+    clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px) !important;
+  }
+
+  .speech-terminal .terminal-title {
+    font-size: 9px !important;
+  }
+
+  .speech-terminal .log-entry {
+    font-size: 8px !important;
+  }
+}
+
+/* Small Mobile - Speech Terminal */
+@media (max-width: 480px) {
+  .speech-terminal {
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px) !important;
+  }
+
+  .speech-terminal .terminal-title {
+    font-size: 8px !important;
+  }
+
+  .speech-terminal .log-entry {
+    font-size: 7px !important;
+  }
+}

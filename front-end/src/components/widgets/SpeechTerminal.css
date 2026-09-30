@@ -1,0 +1,330 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap');
+
+:root {
+  --term-bg: #0d1117;
+  --term-border: #30363d;
+  --term-accent: #58a6ff;
+  --term-success: #3fb950;
+  --term-warning: #d29922;
+  --term-danger: #f85149;
+  --term-text: #c9d1d9;
+  --term-muted: #8b949e;
+  --status-color: var(--term-accent);
+}
+
+.speech-terminal {
+  z-index: 1000;
+  position: relative;
+  background: var(--term-bg);
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+  border: 1px solid var(--term-border);
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(48, 54, 61, 0.5);
+  overflow: hidden;
+}
+
+/* Status-based colors */
+.speech-terminal.is-listening {
+  --status-color: var(--term-accent);
+}
+
+.speech-terminal.is-processing {
+  --status-color: var(--term-warning);
+}
+
+.speech-terminal.is-speaking {
+  --status-color: var(--term-success);
+}
+
+.speech-terminal.is-offline {
+  --status-color: var(--term-danger);
+}
+
+/* Top border accent */
+.speech-terminal::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--status-color);
+  box-shadow: 0 0 20px var(--status-color);
+  transition: all 0.3s ease;
+}
+
+/* Subtle bottom glow */
+.speech-terminal::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--status-color), transparent);
+  opacity: 0.5;
+  transition: all 0.3s ease;
+}
+
+.speech-terminal:hover {
+  border-color: var(--status-color);
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.5),
+    0 0 0 1px var(--status-color),
+    0 0 30px rgba(88, 166, 255, 0.1);
+}
+
+.speech-terminal:hover::before {
+  box-shadow: 0 0 30px var(--status-color);
+}
+
+.speech-terminal:hover::after {
+  opacity: 0.8;
+}
+
+/* ============================================
+   CORNER BRACKETS - Minimal Tech Style
+   ============================================ */
+.corner-accent {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-color: var(--status-color);
+  border-style: solid;
+  opacity: 0.6;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.corner-accent.top-left {
+  top: 8px;
+  left: 8px;
+  border-width: 2px 0 0 2px;
+}
+
+.corner-accent.top-right {
+  top: 8px;
+  right: 8px;
+  border-width: 2px 2px 0 0;
+}
+
+.corner-accent.bottom-left {
+  bottom: 8px;
+  left: 8px;
+  border-width: 0 0 2px 2px;
+}
+
+.corner-accent.bottom-right {
+  bottom: 8px;
+  right: 8px;
+  border-width: 0 2px 2px 0;
+}
+
+.speech-terminal:hover .corner-accent {
+  opacity: 1;
+  width: 8px;
+  height: 8px;
+}
+
+/* ============================================
+   Shape Modifiers
+   ============================================ */
+.speech-terminal.shape-rounded {
+  border-radius: 8px;
+}
+
+.speech-terminal.shape-square {
+  border-radius: 0;
+}
+
+.speech-terminal.shape-ellipse {
+  border-radius: 50%;
+}
+
+/* ============================================
+   TERMINAL HEADER
+   ============================================ */
+.terminal-header {
+  padding: 10px 14px;
+  background: linear-gradient(180deg, #161b22 0%, #0d1117 100%);
+  border-bottom: 1px solid var(--term-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: grab;
+  user-select: none;
+  position: relative;
+}
+
+.terminal-title {
+  color: var(--term-text);
+  font-size: 11px;
+  font-weight: 600;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.status-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--status-color);
+  box-shadow: 0 0 10px var(--status-color);
+  transition: all 0.3s ease;
+  animation: status-pulse 2s ease-in-out infinite;
+}
+
+@keyframes status-pulse {
+
+  0%,
+  100% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+/* ============================================
+   TERMINAL BODY
+   ============================================ */
+.terminal-body {
+  flex: 1;
+  padding: 14px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--term-text);
+  min-height: 0;
+  position: relative;
+  background:
+    repeating-linear-gradient(0deg,
+      transparent,
+      transparent 2px,
+      rgba(88, 166, 255, 0.02) 2px,
+      rgba(88, 166, 255, 0.02) 4px);
+}
+
+/* Scanline effect overlay */
+.terminal-body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(180deg,
+      rgba(0, 0, 0, 0) 50%,
+      rgba(0, 0, 0, 0.1) 51%);
+  background-size: 100% 4px;
+  pointer-events: none;
+  opacity: 0.3;
+}
+
+.log-entry {
+  line-height: 1.6;
+  word-break: break-word;
+  display: block;
+  width: 100%;
+  animation: slideIn 0.25s ease-out;
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.log-entry.system {
+  color: var(--term-muted);
+  font-style: normal;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+}
+
+.log-entry.user {
+  color: var(--term-text);
+  background: rgba(88, 166, 255, 0.1);
+  padding: 6px 10px;
+  border-radius: 4px;
+  border-left: 3px solid var(--term-accent);
+}
+
+.log-entry.assistant {
+  color: var(--term-success);
+  background: rgba(63, 185, 80, 0.08);
+  padding: 6px 10px;
+  border-radius: 4px;
+  border-left: 3px solid var(--term-success);
+}
+
+.cursor {
+  display: inline-block;
+  width: 8px;
+  height: 16px;
+  background-color: var(--status-color);
+  vertical-align: middle;
+  margin-left: 4px;
+  animation: cursor-blink 1s step-end infinite;
+}
+
+@keyframes cursor-blink {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Scrollbar styling */
+.terminal-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.terminal-body::-webkit-scrollbar-track {
+  background: #0d1117;
+}
+
+.terminal-body::-webkit-scrollbar-thumb {
+  background: var(--term-border);
+  border-radius: 3px;
+}
+
+.terminal-body::-webkit-scrollbar-thumb:hover {
+  background: var(--status-color);
+}
+
+/* ============================================
+   DECORATIVE ELEMENTS (hidden in this design)
+   ============================================ */
+.scan-line,
+.scan-line-vertical,
+.corner-decor,
+.border-decor {
+  display: none;
+}

@@ -1,0 +1,392 @@
+.app-container {
+  width: 100vw;
+  height: 100vh;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('./components/frontendBG.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Floating Particles Background */
+.particles-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.particle {
+  position: absolute;
+  background: radial-gradient(circle, rgba(0, 255, 225, 0.8) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: float linear infinite;
+  opacity: 0.6;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.6;
+  }
+  90% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-100vh) translateX(50px);
+    opacity: 0;
+  }
+}
+
+/* Navbar z-index fix - ensure it's above widgets */
+.futuristic-nav {
+  z-index: 1001 !important;
+}
+
+/* Blob wrapper */
+.blob-wrapper {
+  pointer-events: auto;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  will-change: top, left;
+}
+
+/* Prevent text selection during drag */
+.blob-wrapper:active {
+  cursor: grabbing !important;
+}
+
+/* Widget common styles */
+.glass-widget {
+  will-change: top, left;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* ============================================
+   TABLET RESPONSIVE STYLES (768px - 1024px)
+   ============================================ */
+@media (max-width: 1024px) {
+  .app-container {
+    background-size: 120% auto;
+  }
+
+  /* Adjust navbar for tablet */
+  .futuristic-nav {
+    width: 95%;
+    max-width: 900px;
+  }
+
+  .nav-links {
+    gap: 1.5rem;
+  }
+
+  .nav-link {
+    font-size: 12px;
+  }
+}
+
+/* ============================================
+   MOBILE RESPONSIVE STYLES (max-width: 768px)
+   ============================================ */
+@media (max-width: 768px) {
+  .app-container {
+    background-size: 150% auto;
+    overflow: auto;
+    min-height: 100vh;
+  }
+
+  /* Navbar adjustments */
+  .futuristic-nav {
+    top: 0.5rem;
+    width: 95%;
+    max-width: none;
+    clip-path: polygon(20px 0,
+        100% 0,
+        100% calc(100% - 20px),
+        calc(100% - 20px) 100%,
+        0 100%,
+        0 20px);
+  }
+
+  .nav-container {
+    height: 60px;
+    padding: 0.75rem 1rem;
+  }
+
+  .logo-text {
+    font-size: 16px;
+    letter-spacing: 2px;
+  }
+
+  .nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    padding: 0;
+  }
+
+  .nav-link {
+    font-size: 10px;
+    padding: 0.25rem 0;
+  }
+
+  /* Blob smaller on mobile */
+  .blob-wrapper {
+    max-width: 280px;
+    max-height: 280px;
+  }
+
+  /* Widget adjustments for mobile */
+  .glass-widget {
+    max-width: calc(100vw - 20px) !important;
+    transform: translate(-50%, -50%) !important;
+  }
+
+  /* Speech terminal mobile styles */
+  .speech-terminal {
+    max-width: calc(100vw - 20px) !important;
+    width: 320px !important;
+  }
+
+  .terminal-body {
+    font-size: 9px;
+    padding: 6px 10px;
+  }
+
+  .terminal-title {
+    font-size: 12px;
+  }
+
+  /* DateTime widget mobile */
+  .dateTime-widget {
+    min-width: 140px !important;
+  }
+
+  .dateTime-widget .widget-content {
+    padding: 15px 8px !important;
+  }
+
+  .dateTime-widget .time-display {
+    font-size: 1.4rem !important;
+  }
+
+  /* Weather widget mobile */
+  .weather-widget {
+    min-width: 140px !important;
+  }
+
+  .weather-widget .widget-content {
+    padding: 12px !important;
+  }
+
+  /* Status widget mobile */
+  .status-widget {
+    min-width: 160px !important;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+
+  .status-widget .widget-content {
+    padding: 10px !important;
+  }
+
+  .status-widget .status-item {
+    font-size: 0.55rem !important;
+  }
+
+  /* Settings panel mobile */
+  .settings-panel {
+    width: 100%;
+    right: -100%;
+  }
+
+  .settings-panel.open {
+    right: 0;
+  }
+
+  .settings-title {
+    font-size: 14px;
+  }
+
+  .color-label {
+    font-size: 12px;
+  }
+
+  .color-input {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+/* ============================================
+   SMALL MOBILE STYLES (max-width: 480px)
+   ============================================ */
+@media (max-width: 480px) {
+  .app-container {
+    background-size: 180% auto;
+  }
+
+  .logo-text {
+    font-size: 14px;
+    letter-spacing: 1px;
+  }
+
+  .nav-links {
+    gap: 0.5rem;
+  }
+
+  .nav-link {
+    font-size: 9px;
+  }
+
+  /* Even smaller blob */
+  .blob-wrapper {
+    max-width: 220px;
+    max-height: 220px;
+  }
+
+  /* Compact terminal */
+  .speech-terminal {
+    width: 280px !important;
+    height: 120px !important;
+  }
+
+  .terminal-body {
+    font-size: 8px;
+  }
+
+  /* Compact widgets */
+  .dateTime-widget {
+    min-width: 120px !important;
+  }
+
+  .weather-widget {
+    min-width: 120px !important;
+  }
+
+  .status-widget {
+    min-width: 140px !important;
+  }
+}
+
+/* ============================================
+   LANDSCAPE MOBILE STYLES
+   ============================================ */
+@media (max-width: 768px) and (orientation: landscape) {
+  .app-container {
+    background-size: cover;
+  }
+
+  .blob-wrapper {
+    max-width: 200px;
+    max-height: 200px;
+  }
+
+  /* Stack widgets vertically in landscape */
+  .glass-widget {
+    transform: translate(-50%, -50%) !important;
+  }
+}
+
+/* ============================================
+   TOUCH DEVICE OPTIMIZATIONS
+   ============================================ */
+@media (pointer: coarse) {
+  .glass-widget {
+    touch-action: none;
+  }
+
+  .blob-wrapper {
+    touch-action: none;
+  }
+
+  /* Larger touch targets */
+  .terminal-resizer {
+    width: 20px;
+    height: 20px;
+  }
+
+  .widget-header {
+    min-height: 30px;
+  }
+}
+
+/* ============================================
+   HIGH DPI / RETINA DISPLAYS
+   ============================================ */
+@media (-webkit-min-device-pixel-ratio: 2),
+(min-resolution: 192dpi) {
+  .app-container {
+    background-size: cover;
+  }
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+@media print {
+  .app-container {
+    background: white !important;
+    background-image: none !important;
+  }
+
+  .blob-wrapper,
+  .glass-widget,
+  .futuristic-nav,
+  .settings-panel {
+    display: none !important;
+  }
+}
+
+/* ============================================
+   ANIMATION & TRANSITION OPTIMIZATIONS
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================
+   DARK MODE SUPPORT (if system prefers)
+   ============================================ */
+@media (prefers-color-scheme: dark) {
+  .app-container {
+    background-color: #000;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY IMPROVEMENTS
+   ============================================ */
+@media (prefers-contrast: high) {
+  .glass-widget {
+    border: 2px solid rgba(255, 255, 255, 0.5) !important;
+  }
+
+  .widget-title {
+    text-shadow: none !important;
+  }
+}
